@@ -218,17 +218,12 @@ module.exports = {
             this.ccnt = 0;
             this.cang = 0;
             this.cslp = 0;
-            this.calcflag = docalc;
             if (docalc) {
-                var loc6;
                 gb(this.hasharr, 55);
-                var zg = [0, 0];
-                var zp = new Array(7);
-                zg[0] = gb(this.hasharr, 3);
-                zg[1] = gb(this.hasharr, 3);
-                zp[zg[0]] = gb(this.hasharr, 4) + 1;
-                loc6 = gb(this.hasharr, 4) + 1;
-                zp[zg[1]] = zg[0] == zg[1] ? Math.max(zp[zg[1]], loc6) : loc6;
+                gb(this.hasharr, 3);
+                gb(this.hasharr, 3);
+                gb(this.hasharr, 4);
+                gb(this.hasharr, 4);
                 this.mhp = 145 + gb(this.hasharr, 8);
                 gb(this.hasharr, 1);
                 this.atk = 37 + gb(this.hasharr, 6);
@@ -252,34 +247,6 @@ module.exports = {
         var strout = "";
         strout += "libmd5wars - MD5大作战 Javascript 改版\n";
         strout += "Alpha Preview v2 | Jul 28 2025\n\n";
-        for (let i = 0; i < 2; i++) {
-            if (!users[i].calcflag) {
-                var loc6;
-                gb(users[i].hasharr, 55);
-                var zg = [0, 0];
-                var zp = new Array(7);
-                zg[0] = gb(users[i].hasharr, 3);
-                zg[1] = gb(users[i].hasharr, 3);
-                zp[zg[0]] = gb(users[i].hasharr, 4) + 1;
-                loc6 = gb(users[i].hasharr, 4) + 1;
-                zp[zg[1]] = zg[0] == zg[1] ? Math.max(zp[zg[1]], loc6) : loc6;
-                users[i].mhp = 145 + gb(users[i].hasharr, 8);
-                gb(users[i].hasharr, 1);
-                users[i].atk = 37 + gb(users[i].hasharr, 6);
-                users[i].def = 37 + gb(users[i].hasharr, 6);
-                users[i].spd = 37 + gb(users[i].hasharr, 6);
-                users[i].acr = 37 + gb(users[i].hasharr, 6);
-                users[i].luk = 37 + gb(users[i].hasharr, 6);
-                users[i].cdef = gb(users[i].hasharr, 2) == 0 ? 1 : 0;
-                users[i].cbit = gb(users[i].hasharr, 2) == 1 ? 1 : 0;
-                users[i].cpos = gb(users[i].hasharr, 2) == 0 ? 1 : 0;
-                users[i].cup = gb(users[i].hasharr, 2) == 3 ? 1 : 0;
-                users[i].ccrs = gb(users[i].hasharr, 2) == 0 ? 1 : 0;
-                users[i].ccnt = gb(users[i].hasharr, 2) == 2 ? 1 : 0;
-                users[i].cang = gb(users[i].hasharr, 2) == 1 ? 1 : 0;
-                users[i].cslp = gb(users[i].hasharr, 2) == 1 ? 1 : 0;
-            }
-        }
         for (let i = 0; i < 2; i++) {
             strout += `${users[i].str}  HP:${users[i].mhp} 攻:${users[i].atk} 防:${users[i].def} 速:${users[i].spd} 技:${users[i].acr} 运:${users[i].luk} 技能:${users[i].cdef ? "防" : ""}${users[i].cbit ? "狂" : ""}${users[i].cpos ? "毒" : ""}${users[i].cup ? "垂" : ""}${users[i].ccrs ? "咒" : ""}${users[i].ccnt ? "绊" : ""}${users[i].cang ? "怒" : ""}${users[i].cslp ? "晕" : ""}\n`;
             users[i].hp = users[i].mhp;
@@ -505,5 +472,5 @@ module.exports = {
             }
         }
         return strout;
-    }
+    },
 };
