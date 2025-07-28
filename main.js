@@ -160,32 +160,7 @@ function md5array(s) {
     return arr;
 }
 
-class Player {
-    constructor(strin) {
-        this.str = strin;
-        this.hashstr = hash(strin);
-        this.hasharr = md5array(strin);
-        this.hp = 0;
-        this.mhp = 0;
-        this.atk = 0;
-        this.def = 0;
-        this.spd = 0;
-        this.acr = 0;
-        this.luk = 0;
-        this.cdef = 0;
-        this.cbit = 0;
-        this.cpos = 0;
-        this.cup = 0;
-        this.ccrs = 0;
-        this.ccnt = 0;
-        this.cang = 0;
-        this.cslp = 0;
-    }
-}
-
-var users;
-var to_ary = [];
-
+var users, to_ary;
 function gbt(a, b) {
     if (a.length < b) {
         if (users[0].hashstr < users[1].hashstr) {
@@ -209,265 +184,326 @@ function gbt(a, b) {
     }
     return loc3;
 }
+function gb(a, b) {
+    var loc2 = 1,
+        loc3 = 0;
+    for (let i = 0; i < b; i++) {
+        loc3 += a.shift() * loc2;
+        loc2 *= 2;
+    }
+    return loc3;
+}
 function gbr(a, b) {
     return gbt(a, b) / (Math.pow(2, b) - 1);
 }
 
-users = [new Player("测试1"), new Player("测试2")];
-
-console.log("libmd5wars - MD5大作战 Javascript 改版");
-console.log("Alpha Preview v1 | Jul 27 2025\n");
-
-var loc6, loc7, loc8, loc9;
-for (let i = 0; i < 2; i++) {
-    loc7 = 0;
-    var a = 0.1;
-    for (let j = 0; j < 128; j++) {
-        loc7 += a * users[i].hasharr[j];
-        a *= 0.9;
-    }
-    gbt(users[i].hasharr, 55);
-    var zg = [0, 0];
-    var zp = new Array(7);
-    zg[0] = gbt(users[i].hasharr, 3);
-    zg[1] = gbt(users[i].hasharr, 3);
-    zp[zg[0]] = gbt(users[i].hasharr, 4) + 1;
-    loc6 = gbt(users[i].hasharr, 4) + 1;
-    zp[zg[1]] = zg[0] == zg[1] ? Math.max(zp[zg[1]], loc6) : loc6;
-    users[i].mhp = 145 + gbt(users[i].hasharr, 8);
-    gbt(users[i].hasharr, 1);
-    users[i].atk = 37 + gbt(users[i].hasharr, 6);
-    users[i].def = 37 + gbt(users[i].hasharr, 6);
-    users[i].spd = 37 + gbt(users[i].hasharr, 6);
-    users[i].acr = 37 + gbt(users[i].hasharr, 6);
-    users[i].luk = 37 + gbt(users[i].hasharr, 6);
-    users[i].cdef = gbt(users[i].hasharr, 2) == 0 ? 1 : 0;
-    users[i].cbit = gbt(users[i].hasharr, 2) == 1 ? 1 : 0;
-    users[i].cpos = gbt(users[i].hasharr, 2) == 0 ? 1 : 0;
-    users[i].cup = gbt(users[i].hasharr, 2) == 3 ? 1 : 0;
-    users[i].ccrs = gbt(users[i].hasharr, 2) == 0 ? 1 : 0;
-    users[i].ccnt = gbt(users[i].hasharr, 2) == 2 ? 1 : 0;
-    users[i].cang = gbt(users[i].hasharr, 2) == 1 ? 1 : 0;
-    users[i].cslp = gbt(users[i].hasharr, 2) == 1 ? 1 : 0;
-}
-for (let i = 0; i < 2; i++) {
-    users[i].mhp = Math.ceil(users[i].mhp);
-    users[i].hp = users[i].mhp;
-    console.log(
-        `${users[i].str}  HP ${users[i].hp} 攻 ${users[i].atk} 防 ${users[i].def} 速 ${users[i].spd} 命 ${users[i].acr} 运 ${users[i].luk} 技能 ${users[i].cdef}${users[i].cbit}${users[i].cpos}${users[i].cup}${users[i].ccrs}${users[i].ccnt}${users[i].cang}${users[i].cslp}`
-    );
-    users[i].spd += loc7;
-    users[i].acr /= 100;
-    users[i].luk /= 100;
-}
-if (users[1].spd == users[0].spd) {
-    if (users[0].str > users[1].str) {
-        users[0].spd += 0.001;
-    } else {
-        users[1].spd += 0.001;
-    }
-}
-
-console.log();
-
-to_ary = new Array();
-gbt(to_ary, 1);
-var usera, userd, usert;
-if (users[0].spd > users[1].spd) {
-    usera = users[0];
-    userd = users[1];
-} else {
-    usera = users[1];
-    userd = users[0];
-}
-var astat, dstat, tdmg, guardstat, trcv;
-while (users[0].hp > 0 && users[1].hp > 0) {
-    astat = -1;
-    dstat = -1;
-    tdmg = -1;
-    guardstat = 1;
-    if (usera.cbit != 0 && gbt(to_ary, 3) == 0) {
-        astat = 6;
-        process.stdout.write(
-            `${usera.str} 发狂了, 上前咬了 ${userd.str} 一口, `
-        );
-    } else if (usera.cang != 0 && usera.hp < usera.mhp && gbt(to_ary, 3) == 0) {
-        astat = 5;
-        process.stdout.write(
-            `${usera.str} 发怒了, 把 ${userd.str} 按在地上一顿暴打, `
-        );
-    } else if (usera.ccrs != 0 && gbt(to_ary, 3) == 0) {
-        astat = 4;
-        process.stdout.write(`${usera.str} 诅咒 ${userd.str}, `);
-    } else if (usera.cpos != 0 && gbt(to_ary, 3) == 0) {
-        astat = 3;
-        process.stdout.write(`${usera.str} 向 ${userd.str} 投毒, `);
-    } else {
-        astat = 0;
-        process.stdout.write(`${usera.str} 发起攻击, `);
-    }
-    if (usera.acr + 0.65 - gbr(to_ary, 7) * userd.luk < gbr(to_ary, 7)) {
-        dstat = 5;
-        console.log(`但是被 ${userd.str} 闪开了`);
-        usert = usera;
-        usera = userd;
-        userd = usert;
-    } else if (
-        (astat == 0 || astat == 6) &&
-        userd.ccnt != 0 &&
-        gbt(to_ary, 3) == 0
-    ) {
-        dstat = 4;
-        process.stdout.write(`但是却被 ${userd.str} 绊倒了, `);
-        tdmg = Math.ceil(userd.luk * gbt(to_ary, 7) * 0.8);
-        usera.hp -= tdmg;
-        console.log(`${usera.str} 受到 ${tdmg} 点伤害`);
-        usert = usera;
-        usera = userd;
-        userd = usert;
-        if (userd.hp < 1) {
-            console.log(`${userd.str} 被击败了`);
-        }
-    } else {
-        if (
-            (astat == 0 || astat == 5 || astat == 6) &&
-            userd.cdef &&
-            gbt(to_ary, 2) == 0
-        ) {
-            dstat = 2;
-            guardstat = 2;
-            process.stdout.write(`${userd.str} 防御, `);
-        } else {
-            dstat = 0;
-        }
-        switch (astat) {
-            case 3:
-                if (userd.hp < usera.mhp - usera.hp && gbt(to_ary, 2) > 0) {
-                    tdmg = Math.ceil((usera.mhp - usera.hp) / 2);
-                    userd.hp -= tdmg;
-                    console.log(`${userd.str} 受到 ${tdmg} 点伤害`);
-                } else {
-                    userd.hp = Math.ceil(userd.hp / 2);
-                    console.log(`${userd.str} 体力减半`);
-                }
-                break;
-            case 4:
-                userd.atk *= 0.9;
-                userd.def *= 0.85;
-                userd.spd *= 0.85;
-                userd.acr *= 0.8;
-                userd.luk *= 0.85;
-                console.log(`${userd.str} 所有数值下降`);
-                break;
-            case 6:
-                tdmg =
-                    (usera.atk * (usera.atk + 8)) / userd.def +
-                    usera.luk * gbt(to_ary, 7) * 0.8 -
-                    userd.luk * gbt(to_ary, 6) * 0.8;
-                if (dstat == 2) {
-                    tdmg /= guardstat;
-                }
-                if (tdmg < 1) {
-                    tdmg = 1;
-                    if (dstat == 2) {
-                        tdmg = 0;
-                    }
-                } else {
-                    tdmg = Math.round(tdmg);
-                }
-                userd.hp -= tdmg;
-                console.log(`${userd.str} 受到 ${tdmg} 点伤害`);
-                break;
-            case 0:
-                tdmg =
-                    (usera.atk * usera.atk) / userd.def -
-                    (usera.atk * Math.sqrt(userd.def)) / 20 +
-                    usera.luk * gbt(to_ary, 7) -
-                    userd.luk * gbt(to_ary, 6);
-                if (dstat == 2) {
-                    tdmg /= guardstat;
-                }
-                if (tdmg < 1) {
-                    tdmg = 1;
-                    if (dstat == 2) {
-                        tdmg = 0;
-                    }
-                } else {
-                    tdmg = Math.round(tdmg);
-                }
-                userd.hp -= tdmg;
-                console.log(`${userd.str} 受到 ${tdmg} 点伤害`);
-                break;
-            case 5:
-                for (let i = 0; i < 13; i++) {
-                    tdmg =
-                        (usera.atk * usera.atk) / userd.def -
-                        (usera.atk * Math.sqrt(userd.def)) / 30;
-                    tdmg /= 3;
-                    tdmg +=
-                        usera.luk * gbt(to_ary, 6) -
-                        userd.luk * gbt(to_ary, 6) * 0.8;
-                    if (dstat == 2) {
-                        tdmg /= guardstat;
-                    }
-                    if (tdmg < 1) {
-                        tdmg = 1;
-                        if (dstat == 2) {
-                            tdmg = 0;
-                        }
-                    } else {
-                        tdmg = Math.round(tdmg);
-                    }
-                    userd.hp -= tdmg;
-                    console.log(`${userd.str} 受到 ${tdmg} 点伤害`);
-                    if (
-                        i == 12 ||
-                        (usera.acr * (13 - i)) / 12 + usera.luk - userd.luk <
-                            gbr(to_ary, 7)
-                    ) {
-                        console.log(`${userd.str} 挣脱了`);
-                        break;
-                    }
-                }
-                break;
-        }
-        if (userd.hp > 0) {
-            if (usera.cslp != 0 && tdmg > 10 && gbt(to_ary, 3) == 0) {
-                process.stdout.write(`${userd.str} 被打晕了, `);
-                trcv = Math.ceil(usera.luk * gbt(to_ary, 7) * 0.8);
-                usera.hp += trcv;
-                console.log(`${usera.str} 趁机恢复了体力 ${trcv} 点`);
+module.exports = {
+    Player: class {
+        constructor(strin, docalc) {
+            this.str = strin;
+            this.hashstr = hash(strin);
+            this.hasharr = md5array(strin);
+            this.hp = 0;
+            this.mhp = 0;
+            this.atk = 0;
+            this.def = 0;
+            this.spd = 0;
+            this.acr = 0;
+            this.luk = 0;
+            this.cdef = 0;
+            this.cbit = 0;
+            this.cpos = 0;
+            this.cup = 0;
+            this.ccrs = 0;
+            this.ccnt = 0;
+            this.cang = 0;
+            this.cslp = 0;
+            this.calcflag = docalc;
+            if (docalc) {
+                var loc6;
+                gb(this.hasharr, 55);
+                var zg = [0, 0];
+                var zp = new Array(7);
+                zg[0] = gb(this.hasharr, 3);
+                zg[1] = gb(this.hasharr, 3);
+                zp[zg[0]] = gb(this.hasharr, 4) + 1;
+                loc6 = gb(this.hasharr, 4) + 1;
+                zp[zg[1]] = zg[0] == zg[1] ? Math.max(zp[zg[1]], loc6) : loc6;
+                this.mhp = 145 + gb(this.hasharr, 8);
+                gb(this.hasharr, 1);
+                this.atk = 37 + gb(this.hasharr, 6);
+                this.def = 37 + gb(this.hasharr, 6);
+                this.spd = 37 + gb(this.hasharr, 6);
+                this.acr = 37 + gb(this.hasharr, 6);
+                this.luk = 37 + gb(this.hasharr, 6);
+                this.cdef = gb(this.hasharr, 2) == 0 ? 1 : 0;
+                this.cbit = gb(this.hasharr, 2) == 1 ? 1 : 0;
+                this.cpos = gb(this.hasharr, 2) == 0 ? 1 : 0;
+                this.cup = gb(this.hasharr, 2) == 3 ? 1 : 0;
+                this.ccrs = gb(this.hasharr, 2) == 0 ? 1 : 0;
+                this.ccnt = gb(this.hasharr, 2) == 2 ? 1 : 0;
+                this.cang = gb(this.hasharr, 2) == 1 ? 1 : 0;
+                this.cslp = gb(this.hasharr, 2) == 1 ? 1 : 0;
             }
-            if (
-                userd.cup != 0 &&
-                userd.hp * 5 < userd.mhp &&
-                gbt(to_ary, 1) == 0
-            ) {
-                userd.cup = 0;
-                userd.atk = Math.round(userd.atk * 1.4);
-                userd.def = Math.round(userd.def * 1.2);
-                userd.spd = Math.round(userd.spd * 1.2);
-                userd.acr = Math.round(userd.acr * 1.2);
-                userd.luk = Math.round(userd.luk * 1.3);
-                console.log(`${userd.str} 作出垂死抗争, 所有数值上升`);
+        }
+    },
+    fightString: function (user1, user2) {
+        users = [user1, user2];
+        var strout = "";
+        strout += "libmd5wars - MD5大作战 Javascript 改版\n";
+        strout += "Alpha Preview v2 | Jul 28 2025\n\n";
+        for (let i = 0; i < 2; i++) {
+            if (!users[i].calcflag) {
+                var loc6;
+                gb(users[i].hasharr, 55);
+                var zg = [0, 0];
+                var zp = new Array(7);
+                zg[0] = gb(users[i].hasharr, 3);
+                zg[1] = gb(users[i].hasharr, 3);
+                zp[zg[0]] = gb(users[i].hasharr, 4) + 1;
+                loc6 = gb(users[i].hasharr, 4) + 1;
+                zp[zg[1]] = zg[0] == zg[1] ? Math.max(zp[zg[1]], loc6) : loc6;
+                users[i].mhp = 145 + gb(users[i].hasharr, 8);
+                gb(users[i].hasharr, 1);
+                users[i].atk = 37 + gb(users[i].hasharr, 6);
+                users[i].def = 37 + gb(users[i].hasharr, 6);
+                users[i].spd = 37 + gb(users[i].hasharr, 6);
+                users[i].acr = 37 + gb(users[i].hasharr, 6);
+                users[i].luk = 37 + gb(users[i].hasharr, 6);
+                users[i].cdef = gb(users[i].hasharr, 2) == 0 ? 1 : 0;
+                users[i].cbit = gb(users[i].hasharr, 2) == 1 ? 1 : 0;
+                users[i].cpos = gb(users[i].hasharr, 2) == 0 ? 1 : 0;
+                users[i].cup = gb(users[i].hasharr, 2) == 3 ? 1 : 0;
+                users[i].ccrs = gb(users[i].hasharr, 2) == 0 ? 1 : 0;
+                users[i].ccnt = gb(users[i].hasharr, 2) == 2 ? 1 : 0;
+                users[i].cang = gb(users[i].hasharr, 2) == 1 ? 1 : 0;
+                users[i].cslp = gb(users[i].hasharr, 2) == 1 ? 1 : 0;
             }
-            if (
-                (usera.spd - userd.spd >= 40 && gbt(to_ary, 1) == 0) ||
-                (usera.spd - userd.spd >= 8 &&
-                    usera.spd - userd.spd < 40 &&
-                    gbt(to_ary, 6) < usera.spd - userd.spd - 7) ||
-                (usera.spd - userd.spd >= 1 &&
-                    usera.spd - userd.spd < 8 &&
-                    gbt(to_ary, 6) == 0)
-            ) {
-                console.log(`${userd.str} 发动连击`);
+        }
+        for (let i = 0; i < 2; i++) {
+            strout += `${users[i].str}  HP:${users[i].mhp} 攻:${users[i].atk} 防:${users[i].def} 速:${users[i].spd} 技:${users[i].acr} 运:${users[i].luk} 技能:${users[i].cdef ? "防" : ""}${users[i].cbit ? "狂" : ""}${users[i].cpos ? "毒" : ""}${users[i].cup ? "垂" : ""}${users[i].ccrs ? "咒" : ""}${users[i].ccnt ? "绊" : ""}${users[i].cang ? "怒" : ""}${users[i].cslp ? "晕" : ""}\n`;
+            users[i].hp = users[i].mhp;
+            users[i].acr /= 100;
+            users[i].luk /= 100;
+        }
+        if (users[1].spd == users[0].spd) {
+            if (users[0].str > users[1].str) {
+                users[0].spd += 0.001;
             } else {
+                users[1].spd += 0.001;
+            }
+        }
+        strout += "\n";
+        to_ary = new Array();
+        gbt(to_ary, 1);
+        var usera, userd, usert;
+        if (users[0].spd > users[1].spd) {
+            usera = users[0];
+            userd = users[1];
+        } else {
+            usera = users[1];
+            userd = users[0];
+        }
+        var astat, dstat, tdmg, guardstat, trcv;
+        while (users[0].hp > 0 && users[1].hp > 0) {
+            astat = -1;
+            dstat = -1;
+            tdmg = -1;
+            guardstat = 1;
+            if (usera.cbit != 0 && gbt(to_ary, 3) == 0) {
+                astat = 6;
+                strout += `${usera.str} 发狂了, 上前咬了 ${userd.str} 一口, `;
+            } else if (
+                usera.cang != 0 &&
+                usera.hp < usera.mhp &&
+                gbt(to_ary, 3) == 0
+            ) {
+                astat = 5;
+                strout += `${usera.str} 发怒了, 把 ${userd.str} 按在地上一顿暴打, `;
+            } else if (usera.ccrs != 0 && gbt(to_ary, 3) == 0) {
+                astat = 4;
+                strout += `${usera.str} 诅咒 ${userd.str}, `;
+            } else if (usera.cpos != 0 && gbt(to_ary, 3) == 0) {
+                astat = 3;
+                strout += `${usera.str} 向 ${userd.str} 投毒, `;
+            } else {
+                astat = 0;
+                strout += `${usera.str} 发起攻击, `;
+            }
+            if (
+                usera.acr + 0.65 - gbr(to_ary, 7) * userd.luk <
+                gbr(to_ary, 7)
+            ) {
+                dstat = 5;
+                strout += `但是被 ${userd.str} 闪开了\n`;
                 usert = usera;
                 usera = userd;
                 userd = usert;
+            } else if (
+                (astat == 0 || astat == 6) &&
+                userd.ccnt != 0 &&
+                gbt(to_ary, 3) == 0
+            ) {
+                dstat = 4;
+                strout += `但是却被 ${userd.str} 绊倒了, `;
+                tdmg = Math.ceil(userd.luk * gbt(to_ary, 7) * 0.8);
+                usera.hp -= tdmg;
+                strout += `${usera.str} 受到 ${tdmg} 点伤害\n`;
+                usert = usera;
+                usera = userd;
+                userd = usert;
+                if (userd.hp < 1) {
+                    strout += `${userd.str} 被击败了\n`;
+                }
+            } else {
+                if (
+                    (astat == 0 || astat == 5 || astat == 6) &&
+                    userd.cdef &&
+                    gbt(to_ary, 2) == 0
+                ) {
+                    dstat = 2;
+                    guardstat = 2;
+                    strout += `${userd.str} 防御, `;
+                } else {
+                    dstat = 0;
+                }
+                switch (astat) {
+                    case 3:
+                        if (
+                            userd.hp < usera.mhp - usera.hp &&
+                            gbt(to_ary, 2) > 0
+                        ) {
+                            tdmg = Math.ceil((usera.mhp - usera.hp) / 2);
+                            userd.hp -= tdmg;
+                            strout += `${userd.str} 受到 ${tdmg} 点伤害\n`;
+                        } else {
+                            userd.hp = Math.ceil(userd.hp / 2);
+                            strout += `${userd.str} 体力减半\n`;
+                        }
+                        break;
+                    case 4:
+                        userd.atk *= 0.9;
+                        userd.def *= 0.85;
+                        userd.spd *= 0.85;
+                        userd.acr *= 0.8;
+                        userd.luk *= 0.85;
+                        strout += `${userd.str} 所有数值下降\n`;
+                        break;
+                    case 6:
+                        tdmg =
+                            (usera.atk * (usera.atk + 8)) / userd.def +
+                            usera.luk * gbt(to_ary, 7) * 0.8 -
+                            userd.luk * gbt(to_ary, 6) * 0.8;
+                        if (dstat == 2) {
+                            tdmg /= guardstat;
+                        }
+                        if (tdmg < 1) {
+                            tdmg = 1;
+                            if (dstat == 2) {
+                                tdmg = 0;
+                            }
+                        } else {
+                            tdmg = Math.round(tdmg);
+                        }
+                        userd.hp -= tdmg;
+                        strout += `${userd.str} 受到 ${tdmg} 点伤害\n`;
+                        break;
+                    case 0:
+                        tdmg =
+                            (usera.atk * usera.atk) / userd.def -
+                            (usera.atk * Math.sqrt(userd.def)) / 20 +
+                            usera.luk * gbt(to_ary, 7) -
+                            userd.luk * gbt(to_ary, 6);
+                        if (dstat == 2) {
+                            tdmg /= guardstat;
+                        }
+                        if (tdmg < 1) {
+                            tdmg = 1;
+                            if (dstat == 2) {
+                                tdmg = 0;
+                            }
+                        } else {
+                            tdmg = Math.round(tdmg);
+                        }
+                        userd.hp -= tdmg;
+                        strout += `${userd.str} 受到 ${tdmg} 点伤害\n`;
+                        break;
+                    case 5:
+                        strout += "\n";
+                        for (let i = 0; i < 13; i++) {
+                            tdmg =
+                                (usera.atk * usera.atk) / userd.def -
+                                (usera.atk * Math.sqrt(userd.def)) / 30;
+                            tdmg /= 3;
+                            tdmg +=
+                                usera.luk * gbt(to_ary, 6) -
+                                userd.luk * gbt(to_ary, 6) * 0.8;
+                            if (dstat == 2) {
+                                tdmg /= guardstat;
+                            }
+                            if (tdmg < 1) {
+                                tdmg = 1;
+                                if (dstat == 2) {
+                                    tdmg = 0;
+                                }
+                            } else {
+                                tdmg = Math.round(tdmg);
+                            }
+                            userd.hp -= tdmg;
+                            strout += `${userd.str} 受到 ${tdmg} 点伤害\n`;
+                            if (
+                                i == 12 ||
+                                (usera.acr * (13 - i)) / 12 +
+                                    usera.luk -
+                                    userd.luk <
+                                    gbr(to_ary, 7)
+                            ) {
+                                strout += `${userd.str} 挣脱了\n`;
+                                break;
+                            }
+                        }
+                        break;
+                }
+                if (userd.hp > 0) {
+                    if (usera.cslp != 0 && tdmg > 10 && gbt(to_ary, 3) == 0) {
+                        strout += `${userd.str} 被打晕了, `;
+                        trcv = Math.ceil(usera.luk * gbt(to_ary, 7) * 0.8);
+                        usera.hp += trcv;
+                        strout += `${usera.str} 趁机恢复了体力 ${trcv} 点\n`;
+                    }
+                    if (
+                        userd.cup != 0 &&
+                        userd.hp * 5 < userd.mhp &&
+                        gbt(to_ary, 1) == 0
+                    ) {
+                        userd.cup = 0;
+                        userd.atk = Math.round(userd.atk * 1.4);
+                        userd.def = Math.round(userd.def * 1.2);
+                        userd.spd = Math.round(userd.spd * 1.2);
+                        userd.acr = Math.round(userd.acr * 1.2);
+                        userd.luk = Math.round(userd.luk * 1.3);
+                        strout += `${userd.str} 作出垂死抗争, 所有数值上升\n`;
+                    }
+                    if (
+                        (usera.spd - userd.spd >= 40 && gbt(to_ary, 1) == 0) ||
+                        (usera.spd - userd.spd >= 8 &&
+                            usera.spd - userd.spd < 40 &&
+                            gbt(to_ary, 6) < usera.spd - userd.spd - 7) ||
+                        (usera.spd - userd.spd >= 1 &&
+                            usera.spd - userd.spd < 8 &&
+                            gbt(to_ary, 6) == 0)
+                    ) {
+                        strout += `${userd.str} 发动连击\n`;
+                    } else {
+                        usert = usera;
+                        usera = userd;
+                        userd = usert;
+                    }
+                } else {
+                    strout += `${userd.str} 被击败了\n`;
+                }
             }
-        } else {
-            console.log(`${userd.str} 被击败了`);
         }
+        return strout;
     }
-}
+};
