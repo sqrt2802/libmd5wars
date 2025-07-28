@@ -219,11 +219,7 @@ module.exports = {
             this.cang = 0;
             this.cslp = 0;
             if (docalc) {
-                gb(this.hasharr, 55);
-                gb(this.hasharr, 3);
-                gb(this.hasharr, 3);
-                gb(this.hasharr, 4);
-                gb(this.hasharr, 4);
+                gb(this.hasharr, 69);
                 this.mhp = 145 + gb(this.hasharr, 8);
                 gb(this.hasharr, 1);
                 this.atk = 37 + gb(this.hasharr, 6);
@@ -472,5 +468,5 @@ module.exports = {
             }
         }
         return strout;
-    },
+    }
 };
